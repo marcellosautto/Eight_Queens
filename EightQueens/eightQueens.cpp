@@ -6,20 +6,20 @@ eightQueens::eightQueens()
 	//initialize the grid
 	for (int row = 0; row < 8; row++)
 		for (int col = 0; col < 8; col++)
-			emptyBoard[row][col] = 177;
+			board[row][col] = 177;
 }
 
 bool eightQueens::mainLoop() 
 {
-	solveBoard(0, 0, emptyBoard);
+	solveBoard(0, 0);
 	return false;
 }
 
-bool eightQueens::solveBoard(int row, int col, char board[8][8])
+bool eightQueens::solveBoard(int row, int col)
 {
 	if (queenCount == 8) //if 8 queens are placed, we found a solution
 	{
-		printSolution(board);
+		printSolution();
 		return true;
 	}
 		
@@ -28,32 +28,56 @@ bool eightQueens::solveBoard(int row, int col, char board[8][8])
 		col = 0;
 		row++;
 	}
-	
-	if (canPlaceQueen(row, col, board)) //if a queen isnt in the same row, col, or diagonal, place a queen
+
+	else if (col < 0)
 	{
-		queenCount++;
-		board[row][col] = 'X';
-		return solveBoard(row + 1, 0, board);
+		col = 7;
+		row--;
 	}
+	
+	/*
+	While (row and col are less than 8)
+		{
+			if we can place a queen, place it
+			if we cant, backtrack to the previous queen, remove it, then try to place another one in the row
+		}
+	*/
+	while (row < 8 && col < 8)
+	{
+		printSolution();
+		cout << "-------------------------------------" << endl;
+		Sleep(1000);
+		if (canPlaceQueen(row, col)) //if a queen isnt in the same row, col, or diagonal, place a queen
+		{
+			queenCount++;
+			board[row][col] = 'X';
+			return solveBoard(row + 1, 0);
+		}
 
-	else {
-		queenCount--;
-		board[row][col] = 177;
+		else if (board[row][col] == 'X') { //if we found a previously placed queen, remove it
+			queenCount--;
+			board[row][col] = 177;
+			return solveBoard(row - 1, 7);
+		}
+
+		else if(board[row][col] == 177)
+			return solveBoard(row, col-1);
+
+		return solveBoard(row, col + 1);
 	}
-
-	return solveBoard(row, col+1, board);
+	return false;
 
 }
 
-bool eightQueens::canPlaceQueen(int row, int col, char board[8][8])
+bool eightQueens::canPlaceQueen(int row, int col)
 {
-	if (!inSameRow(row, board) && !inSameCol(col, board) && !inSameDiagonalLeftToRight(row, col, board) && !inSameDiagonalRightToLeft(row, col, board))
+	if (!inSameRow(row) && !inSameCol(col) && !inSameDiagonalLeftToRight(row, col) && !inSameDiagonalRightToLeft(row, col))
 		return true;
 	else
 		return false;
 }
 
-bool eightQueens::inSameRow(int row, char board[8][8]) //checks if the queen is already in the row
+bool eightQueens::inSameRow(int row) //checks if the queen is already in the row
 {
 	for (int col = 0; col < 8; col++)
 		if (board[row][col] == 'X')
@@ -61,7 +85,7 @@ bool eightQueens::inSameRow(int row, char board[8][8]) //checks if the queen is 
 	return false;
 }
 
-bool eightQueens::inSameCol(int col, char board[8][8]) //checks if a queen is already in the column
+bool eightQueens::inSameCol(int col) //checks if a queen is already in the column
 {
 	for (int row = 0; row < 8; row++)
 		if (board[row][col] == 'X')
@@ -69,7 +93,7 @@ bool eightQueens::inSameCol(int col, char board[8][8]) //checks if a queen is al
 	return false;
 }
 
-bool eightQueens::inSameDiagonalLeftToRight(int row, int col, char board[8][8])
+bool eightQueens::inSameDiagonalLeftToRight(int row, int col)
 {
 	int r = 0;
 	int c = 0;
@@ -93,7 +117,7 @@ bool eightQueens::inSameDiagonalLeftToRight(int row, int col, char board[8][8])
 	return false;
 }
 
-bool eightQueens::inSameDiagonalRightToLeft(int row, int col, char board[8][8])
+bool eightQueens::inSameDiagonalRightToLeft(int row, int col)
 {
 	int r = 0;
 	int c = 0;
@@ -118,7 +142,7 @@ bool eightQueens::inSameDiagonalRightToLeft(int row, int col, char board[8][8])
 }
 
 
-void eightQueens::printSolution(char board[8][8]) //print out the solved chess board
+void eightQueens::printSolution() //print out the solved chess board
 {
 	for (int row = 0; row < 8; row++)
 	{
