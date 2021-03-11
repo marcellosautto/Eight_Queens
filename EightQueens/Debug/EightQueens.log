@@ -1,7 +1,4 @@
 ﻿  eightQueens.cpp
-D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(8,22): warning C4309: '=': truncation of constant value
-D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(35,21): warning C4309: '=': truncation of constant value
-  main.cpp
-  Generating Code...
-D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(42): warning C4715: 'eightQueens::solveBoard': not all control paths return a value
+D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(9,27): warning C4309: '=': truncation of constant value
+D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(41,21): warning C4309: '=': truncation of constant value
   EightQueens.vcxproj -> D:\VS_Projects\EightQueens\Debug\EightQueens.exe

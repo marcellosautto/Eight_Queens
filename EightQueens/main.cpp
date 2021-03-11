@@ -2,8 +2,7 @@
 
 int main()
 {
-	eightQueens Q;
-	while(!Q.solveBoard(0, 0, 'X'))
-		Q.printSolution();
-
+	eightQueens* Q = new eightQueens(); //create pointer to sudoku class
+	while (Q->mainLoop()) //while mainLoop returns true, create a new instance of the sudoku class
+		Q = new eightQueens();
 }

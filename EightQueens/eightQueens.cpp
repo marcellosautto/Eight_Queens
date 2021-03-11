@@ -2,77 +2,89 @@
 
 eightQueens::eightQueens()
 {
+	queenCount = 0;
 	//initialize the grid
 	for (int row = 0; row < 8; row++)
 		for (int col = 0; col < 8; col++)
-			board[row][col] = 177;
-
-	queenCount = 0;
+			emptyBoard[row][col] = 177;
 }
 
-bool eightQueens::solveBoard(int row, int col, char queen)
+bool eightQueens::mainLoop() 
+{
+	solveBoard(0, 0, emptyBoard);
+	return false;
+}
+
+bool eightQueens::solveBoard(int row, int col, char board[8][8])
 {
 	if (queenCount == 8) //if 8 queens are placed, we found a solution
+	{
+		printSolution(board);
 		return true;
+	}
 		
-
 	if (col > 8) //go to the next row
 	{
 		col = 0;
 		row++;
 	}
 	
-	if (canPlaceQueen(row, col, queen)) //if a queen isnt in the same row, col, or diagonal, place a queen
+	if (canPlaceQueen(row, col, board)) //if a queen isnt in the same row, col, or diagonal, place a queen
 	{
 		queenCount++;
-		board[row][col] = queen;
-		return solveBoard(row + 1, 0, queen);
+		board[row][col] = 'X';
+		return solveBoard(row + 1, 0, board);
 	}
 
-	else if (!canPlaceQueen(row, col, queen) && col == 7) //if we reach a dead end, backtrack
-	{
+	else {
 		queenCount--;
 		board[row][col] = 177;
 	}
-		
 
-	else
-		return solveBoard(row, col+1, queen);
+	return solveBoard(row, col+1, board);
 
 }
 
-bool eightQueens::canPlaceQueen(int row, int col, char queen)
+bool eightQueens::canPlaceQueen(int row, int col, char board[8][8])
 {
-	if (!inSameRow(row, queen) && !inSameCol(col, queen) && !inSameDiagonalLeftToRight(0, abs(row-col), queen) && !inSameDiagonalRightToLeft(row+col-7, 7, queen))
+	if (!inSameRow(row, board) && !inSameCol(col, board) && !inSameDiagonalLeftToRight(row, col, board) && !inSameDiagonalRightToLeft(row, col, board))
 		return true;
 	else
 		return false;
 }
 
-bool eightQueens::inSameRow(int row, char queen) //checks if the queen is already in the row
+bool eightQueens::inSameRow(int row, char board[8][8]) //checks if the queen is already in the row
 {
 	for (int col = 0; col < 8; col++)
-		if (board[row][col] == queen)
+		if (board[row][col] == 'X')
 			return true;
 	return false;
 }
 
-bool eightQueens::inSameCol(int col, char queen) //checks if a queen is already in the column
+bool eightQueens::inSameCol(int col, char board[8][8]) //checks if a queen is already in the column
 {
 	for (int row = 0; row < 8; row++)
-		if (board[row][col] == queen)
+		if (board[row][col] == 'X')
 			return true;
 	return false;
 }
 
-bool eightQueens::inSameDiagonalLeftToRight(int row, int col, char queen)
+bool eightQueens::inSameDiagonalLeftToRight(int row, int col, char board[8][8])
 {
 	int r = 0;
 	int c = 0;
 
-	while (row + r < 8 && col + c < 8) //check diagonal from left to right until we hit the last row or the last column
+	while (row - r >= 0 && col - c >= 0) //check upper left diagonal
 	{
-		if (board[row + r][col + c] == queen)
+		if (board[row - r][col - c] == 'X')
+			return true;
+		r++;
+		c++;
+	}
+	r = c = 0;
+	while (row + r < 8 && col + c < 8) //check lower right diagonal
+	{
+		if (board[row + r][col + c] == 'X')
 			return true;
 		r++;
 		c++;
@@ -81,24 +93,32 @@ bool eightQueens::inSameDiagonalLeftToRight(int row, int col, char queen)
 	return false;
 }
 
-bool eightQueens::inSameDiagonalRightToLeft(int row, int col, char queen)
+bool eightQueens::inSameDiagonalRightToLeft(int row, int col, char board[8][8])
 {
 	int r = 0;
 	int c = 0;
 
-	while (row + r < 8 && col - c >= 0) //check diagonal from right to left until either we're at the bottom of the row or at the first column
+	while (row - r >= 0 && col + c < 8) //check upper right diagonal
 	{
-		if (board[row + r][col - c] == queen)
+		if (board[row - r][col + c] == 'X')
 			return true;
 		r++;
 		c++;
 	}
-		
+	r = c = 0;
+	while (row + r < 8 && col - c >= 0) //check lower left diagonal
+	{
+		if (board[row + r][col - c] == 'X')
+			return true;
+		r++;
+		c++;
+	}
+
 	return false;
 }
 
 
-void eightQueens::printSolution() //print out the solved chess board
+void eightQueens::printSolution(char board[8][8]) //print out the solved chess board
 {
 	for (int row = 0; row < 8; row++)
 	{
