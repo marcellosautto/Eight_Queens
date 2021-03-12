@@ -15,7 +15,7 @@ private:
 	int queenCount;
 	char board[8][8];
 	//functions
-	bool solveBoard(int row, int col),
+	bool solveBoard(int row, int col, bool isDeadEnd),
 		canPlaceQueen(int row, int col),
 		inSameRow(int row),
 		inSameCol(int col),

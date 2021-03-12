@@ -6,24 +6,24 @@ eightQueens::eightQueens()
 	//initialize the grid
 	for (int row = 0; row < 8; row++)
 		for (int col = 0; col < 8; col++)
-			board[row][col] = 177;
+			board[row][col] = 'o';
 }
 
-bool eightQueens::mainLoop() 
+bool eightQueens::mainLoop()
 {
-	solveBoard(0, 0);
+	solveBoard(0, 0, false);
 	return false;
 }
 
-bool eightQueens::solveBoard(int row, int col)
+bool eightQueens::solveBoard(int row, int col, bool isDeadEnd)
 {
 	if (queenCount == 8) //if 8 queens are placed, we found a solution
 	{
 		printSolution();
 		return true;
 	}
-		
-	if (col > 8) //go to the next row
+
+	if (col > 7) //go to the next row
 	{
 		col = 0;
 		row++;
@@ -34,36 +34,35 @@ bool eightQueens::solveBoard(int row, int col)
 		col = 7;
 		row--;
 	}
-	
-	/*
-	While (row and col are less than 8)
-		{
-			if we can place a queen, place it
-			if we cant, backtrack to the previous queen, remove it, then try to place another one in the row
-		}
-	*/
+
 	while (row < 8 && col < 8)
 	{
 		printSolution();
 		cout << "-------------------------------------" << endl;
-		Sleep(1000);
+		Sleep(500);
 		if (canPlaceQueen(row, col)) //if a queen isnt in the same row, col, or diagonal, place a queen
 		{
 			queenCount++;
 			board[row][col] = 'X';
-			return solveBoard(row + 1, 0);
+			solveBoard(row + 1, 0, isDeadEnd);
 		}
 
-		else if (board[row][col] == 'X') { //if we found a previously placed queen, remove it
-			queenCount--;
-			board[row][col] = 177;
-			return solveBoard(row - 1, 7);
+		else //if the board spot is empty and we've gone through the entire row, backtrack
+		{
+			if (board[row][col] == 'X') //if we find a queen while backtracking, remove it and try to place it somewhere else
+			{
+				queenCount--;
+				board[row][col] = 'o';
+				solveBoard(row, col + 1, false);
+			}
+
+			else if (board[row][col] == 'o' && isDeadEnd == true) //if we can't place a queen, the board is empty, and we're at a dead end
+			{
+				solveBoard(row, col - 1, true);
+			}
+
 		}
-
-		else if(board[row][col] == 177)
-			return solveBoard(row, col-1);
-
-		return solveBoard(row, col + 1);
+		solveBoard(row, col + 1, isDeadEnd); //if we can't place anything and the board is empty, keep looking
 	}
 	return false;
 
@@ -113,7 +112,7 @@ bool eightQueens::inSameDiagonalLeftToRight(int row, int col)
 		r++;
 		c++;
 	}
-		
+
 	return false;
 }
 
