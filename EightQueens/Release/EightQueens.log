@@ -1,0 +1,10 @@
+﻿  eightQueens.cpp
+D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(9,22): warning C4309: '=': truncation of constant value
+D:\VS_Projects\EightQueens\EightQueens\eightQueens.cpp(28,21): warning C4309: '=': truncation of constant value
+  main.cpp
+  Generating code
+  1 of 20 functions ( 5.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  EightQueens.vcxproj -> D:\VS_Projects\EightQueens\Release\EightQueens.exe

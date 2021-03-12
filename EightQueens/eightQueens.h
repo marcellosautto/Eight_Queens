@@ -9,21 +9,21 @@ class eightQueens
 {
 
 public:
-	bool mainLoop();
 	eightQueens(); //constructor
 
-	//variables
+	//member variables
 	char board[N][N];
+
 	//functions
 	void printSolution();
 	bool solveBoard(int row, int col, int numQueens);
+
 private:
-		bool canPlaceQueen(int row, int col),
+	bool canPlaceQueen(int row, int col),
 		inSameRow(int row),
 		inSameCol(int col),
 		inSameDiagonalLeftToRight(int row, int col),
-		inSameDiagonalRightToLeft(int row, int col),
-		findReplacement(int row, int col);
+		inSameDiagonalRightToLeft(int row, int col);
 	
 };
 
