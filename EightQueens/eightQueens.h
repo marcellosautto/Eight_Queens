@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 using namespace std;
+#define N 8
 
 class eightQueens
 {
@@ -10,18 +11,19 @@ class eightQueens
 public:
 	bool mainLoop();
 	eightQueens(); //constructor
-private:
+
 	//variables
-	int queenCount;
-	char board[8][8];
+	char board[N][N];
 	//functions
-	bool solveBoard(int row, int col, bool isDeadEnd),
-		canPlaceQueen(int row, int col),
+	void printSolution();
+	bool solveBoard(int row, int col, int numQueens);
+private:
+		bool canPlaceQueen(int row, int col),
 		inSameRow(int row),
 		inSameCol(int col),
 		inSameDiagonalLeftToRight(int row, int col),
 		inSameDiagonalRightToLeft(int row, int col),
 		findReplacement(int row, int col);
-	void printSolution();
+	
 };
 
