@@ -20,7 +20,8 @@ private:
 		inSameRow(int row),
 		inSameCol(int col),
 		inSameDiagonalLeftToRight(int row, int col),
-		inSameDiagonalRightToLeft(int row, int col);
+		inSameDiagonalRightToLeft(int row, int col),
+		findReplacement(int row, int col);
 	void printSolution();
 };
 
